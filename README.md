@@ -1,5 +1,7 @@
 # Swap tmux panes easily
 
+![](/img/demo.gif)
+
 ## Installation
 
 ### 1. Clone this repository and put swap-pane in your PATH
