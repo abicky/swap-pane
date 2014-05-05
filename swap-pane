@@ -1,0 +1,41 @@
+#!/bin/zsh
+# Copyright 2014 Takeshi Arabiki
+# License: MIT License (http://opensource.org/licenses/MIT)
+# URL: https://github.com/abicky/swap-pane
+
+if [ -z "$TMUX" ]; then
+    echo "Not in a tmux session" >&2
+    exit 1
+fi
+
+alias message="tmux display-message"
+
+zparseopts -D n=new t=on_tmp_window
+if [ $# -ne 0 ]; then
+    message "Unknown options '$@' are specified"
+    return 1
+fi
+
+current_pane=$(tmux display-message -p '#I.#P')
+swapped_pane=$current_pane
+if [ "$new" ]; then
+    selected_pane=$(tmux new-window -dP)
+else
+    if [ "$on_tmp_window" ]; then
+        # Invoked via a command like "tmux new-window 'swap-pane -t'"
+        swapped_pane=$(tmux last-window && tmux display-message -p "#I.#P")
+        tmux last-window
+    fi
+    panes=$(tmux list-panes -sF '#I.#P #{pane_title}' | egrep -v "^($current_pane|$swapped_pane)")
+    if [ -z "$panes" ]; then
+        message "No other panes"
+        return 1
+    fi
+    selected_pane=$(echo $panes | percol | sed 's/ .*//')
+    if [ -z "$selected_pane" ]; then
+        # canceled
+        return 1
+    fi
+fi
+
+tmux swap-pane -s $swapped_pane -t $selected_pane
