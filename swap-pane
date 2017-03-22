@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Copyright 2014 Takeshi Arabiki
+# Copyright 2014-2017 Takeshi Arabiki
 # License: MIT License (http://opensource.org/licenses/MIT)
 # URL: https://github.com/abicky/swap-pane
 
@@ -31,7 +31,7 @@ else
         message "No other panes"
         return 1
     fi
-    selected_pane=$(echo $panes | percol | sed 's/ .*//')
+    selected_pane=$(echo $panes | peco | sed 's/ .*//')
     if [ -z "$selected_pane" ]; then
         # canceled
         return 1

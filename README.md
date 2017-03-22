@@ -11,19 +11,9 @@
 % cp swap-pane/swap-pane /path/to/your/bin/
 ```
 
-### 2. Install percol
+### 2. Install peco
 
-swap-pane depends on [percol](https://github.com/mooz/percol), so you must install it.
-
-```
-% pip install percol
-```
-
-You can also use `easy_install` to install percol.
-
-```
-% easy_install percol
-```
+swap-pane depends on [peco](https://github.com/peco/peco), so you must install it.
 
 ### 3. Add the following lines in your .zshrc and .tmux.conf
 
@@ -35,7 +25,7 @@ autoload -U add-zsh-hook
 if [ "$TMUX" ]; then
     function _set-pane-name() {
         local max_cmd_length=20
-        local cmd=$1
+        local cmd="$1"
         if [ $#cmd -gt $max_cmd_length ]; then
             cmd="${cmd:0:$max_cmd_length}..."
         fi
@@ -79,4 +69,4 @@ Takeshi Arabiki (abicky)
 
 ## Copyright and License
 
-Copyright (c) 2014 Takeshi Arabiki licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Copyright (c) 2014-2017 Takeshi Arabiki licensed under the [MIT license](http://opensource.org/licenses/MIT).
